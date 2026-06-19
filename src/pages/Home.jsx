@@ -1,4 +1,8 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { productService } from '../services/productService'
+import { extractImageUrl, emojis } from '../utils/images'
+import { ROUTES } from '../constants'
 
 const features = [
   { icon: '🔒', title: 'Trusted Professionals', desc: 'All providers are thoroughly vetted and verified for your safety.' },
@@ -20,12 +24,39 @@ const testimonials = [
 ]
 
 function Home() {
+  const [niches, setNiches] = useState([])
+  const [loadingNiches, setLoadingNiches] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+    async function load() {
+      try {
+        const nichesRes = await productService.getNiches()
+        if (cancelled) return
+        const nicheList = nichesRes?.data?.data || nichesRes?.data || nichesRes?.niches || nichesRes?.nieches || nichesRes?.products_nieches || []
+        setNiches(Array.isArray(nicheList) ? nicheList : [])
+      } catch {
+        // silent
+      } finally {
+        if (!cancelled) setLoadingNiches(false)
+      }
+    }
+    load()
+    return () => { cancelled = true }
+  }, [])
+
+  const heroProducts = niches.slice(0, 3)
+
+  const nicheName = (n) => n?.name || n?.title || n?.niche_name || 'Category'
+  const nicheImage = (n) => extractImageUrl(n) || n?.image_icon || null
+  const nicheId = (n) => n?.id || n?.niche_id || n?._id
+
   return (
-    <section className="animate-fade-up">
+    <>
       {/* Hero */}
-      <div className="hero-wrap bg-[var(--color-accent)] px-6 md:px-12 py-14 md:py-20 mt-8">
+      <div className="hero-wrap bg-[var(--color-accent)] px-6 md:px-12 py-14 md:py-20">
         <div className="flex items-center gap-12 md:gap-20 text-left max-w-[1200px] mx-auto max-md:flex-col max-md:text-center">
-          <div className="flex-1.1 animate-fade-up">
+          <div className="flex-1 animate-fade-up">
             <div className="inline-flex items-center gap-1.5 bg-white/20 text-white text-[13px] font-semibold px-4 py-1.5 rounded-full mb-6">
               <span>⚡</span> Trusted by 10,000+ customers
             </div>
@@ -39,7 +70,7 @@ function Home() {
             <div className="flex gap-4 flex-wrap max-md:justify-center">
               <Link to="/order" className="inline-flex items-center gap-2.5 bg-white text-[var(--color-accent)] text-[16px] font-semibold px-9 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-all duration-300 hover:shadow-[0_12px_36px_rgba(0,0,0,0.25)] hover:-translate-y-1 active:scale-96">
                 Browse Services
-                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1 hover:translate-x-1">→</span>
+                <span className="inline-block transition-transform duration-300 hover:translate-x-1">→</span>
               </Link>
               <Link to="#" className="inline-flex items-center text-white text-[16px] font-semibold px-9 py-3.5 rounded-xl border-2 border-white/40 transition-all duration-300 hover:border-white hover:bg-white/10 active:scale-96">
                 How It Works
@@ -61,28 +92,41 @@ function Home() {
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col gap-4 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-            <div className="flex items-center gap-4 bg-white/12 backdrop-blur-md border border-white/18 rounded-xl px-5 py-4 w-full max-w-[340px] ml-auto animate-fade-up transition-all duration-300 hover:bg-white/20 hover:-translate-x-2" style={{ animationDelay: '0.3s' }}>
-              <span className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center text-2xl shrink-0">🧹</span>
-              <div>
-                <strong className="block text-[15px] text-white mb-0.5">Home Cleaning</strong>
-                <span className="text-[13px] text-white/70">Starting at <em className="not-italic font-bold text-white">$49</em></span>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 bg-white/12 backdrop-blur-md border border-white/18 rounded-xl px-5 py-4 w-[320px] max-w-[340px] ml-auto animate-fade-up transition-all duration-300 hover:bg-white/20 hover:-translate-x-2" style={{ animationDelay: '0.5s' }}>
-              <span className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center text-2xl shrink-0">🔧</span>
-              <div>
-                <strong className="block text-[15px] text-white mb-0.5">Plumbing</strong>
-                <span className="text-[13px] text-white/70">Starting at <em className="not-italic font-bold text-white">$79</em></span>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 bg-white/12 backdrop-blur-md border border-white/18 rounded-xl px-5 py-4 w-[300px] max-w-[340px] ml-auto animate-fade-up transition-all duration-300 hover:bg-white/20 hover:-translate-x-2" style={{ animationDelay: '0.7s' }}>
-              <span className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center text-2xl shrink-0">⚡</span>
-              <div>
-                <strong className="block text-[15px] text-white mb-0.5">Electrical</strong>
-                <span className="text-[13px] text-white/70">Starting at <em className="not-italic font-bold text-white">$69</em></span>
-              </div>
-            </div>
+          <div className="flex-1 flex-col gap-4 animate-fade-up max-md:w-full hidden md:flex" style={{ animationDelay: '0.2s' }}>
+            {!loadingNiches && heroProducts.length > 0 ? heroProducts.map((n, i) => {
+              const img = nicheImage(n)
+              const nId = nicheId(n)
+              return (
+                <Link
+                  key={nId || i}
+                  to={nId ? ROUTES.NICHE_PRODUCTS(nId) : '#'}
+                  className="flex items-center gap-4 bg-white/12 backdrop-blur-md border border-white/18 rounded-xl px-5 py-4 w-full max-w-[340px] ml-auto text-left cursor-pointer transition-all duration-300 hover:bg-white/20 hover:-translate-x-2 animate-fade-up"
+                  style={{ animationDelay: `${0.3 + i * 0.2}s` }}
+                >
+                  {img ? (
+                    <img src={img} alt={nicheName(n)} className="w-12 h-12 rounded-xl object-cover shrink-0" />
+                  ) : (
+                    <span className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center text-2xl shrink-0">
+                      {emojis[i % emojis.length]}
+                    </span>
+                  )}
+                  <div>
+                    <strong className="block text-[15px] text-white mb-0.5">{nicheName(n)}</strong>
+                    <span className="text-[13px] text-white/70">Browse services →</span>
+                  </div>
+                </Link>
+              )
+            }) : loadingNiches ? (
+              [1, 2, 3].map(i => (
+                <div key={i} className="flex items-center gap-4 bg-white/12 backdrop-blur-md border border-white/18 rounded-xl px-5 py-4 w-full max-w-[340px] ml-auto animate-pulse">
+                  <div className="w-12 h-12 rounded-xl bg-white/15" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-3 w-24 bg-white/15 rounded" />
+                    <div className="h-2.5 w-16 bg-white/10 rounded" />
+                  </div>
+                </div>
+              ))
+            ) : null}
           </div>
         </div>
       </div>
@@ -101,8 +145,74 @@ function Home() {
         </div>
       </div>
 
-      {/* Features */}
+      {/* Niches Grid */}
       <div className="px-6 md:px-12 py-16 md:py-20">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="text-center mb-12">
+            <span className="inline-block text-[13px] font-semibold tracking-wider uppercase text-[var(--color-accent)] mb-3">Categories</span>
+            <h2 className="text-[var(--color-text-h)] text-3xl md:text-4xl font-bold mb-4">What do you need help with?</h2>
+            <p className="text-[var(--color-text)] max-w-[540px] mx-auto">Choose a category to explore services.</p>
+          </div>
+
+          {loadingNiches ? (
+            <div className="grid grid-cols-4 gap-5 max-md:grid-cols-2 max-sm:grid-cols-1">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+                <div key={i} className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-2xl overflow-hidden animate-pulse">
+                  <div className="aspect-square bg-[var(--color-border)]" />
+                  <div className="p-4 text-center">
+                    <div className="h-4 w-20 bg-[var(--color-border)] rounded mx-auto" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : niches.length === 0 ? (
+            <div className="text-center py-10">
+              <p className="text-[var(--color-text)]">No categories available yet.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-4 gap-5 max-md:grid-cols-2 max-sm:grid-cols-1">
+              {niches.map((n, i) => {
+                const img = nicheImage(n)
+                const nId = nicheId(n)
+                return (
+                  <Link
+                    key={nId || i}
+                    to={nId ? ROUTES.NICHE_PRODUCTS(nId) : '#'}
+                    className="group bg-[var(--color-card)] border border-[var(--color-border)] rounded-2xl overflow-hidden cursor-pointer text-left transition-all duration-300 animate-fade-up hover:shadow-[var(--shadow-hover,0_16px_48px_rgba(0,0,0,0.1))] hover:-translate-y-1.5 hover:border-[var(--color-accent)]/30"
+                    style={{ animationDelay: `${i * 0.04}s` }}
+                  >
+                    <div className="aspect-square bg-[var(--color-bg-alt)] flex items-center justify-center overflow-hidden">
+                      {img ? (
+                        <img
+                          src={img}
+                          alt={nicheName(n)}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          onError={(e) => {
+                            e.target.style.display = 'none'
+                            e.target.parentElement.innerHTML = `<span class="text-5xl">${emojis[i % emojis.length]}</span>`
+                          }}
+                        />
+                      ) : (
+                        <span className="text-5xl transition-transform duration-500 group-hover:scale-110">
+                          {emojis[i % emojis.length]}
+                        </span>
+                      )}
+                    </div>
+                    <div className="p-4 text-center">
+                      <h3 className="text-[var(--color-text-h)] text-sm font-semibold m-0 group-hover:text-[var(--color-accent)] transition-colors">
+                        {nicheName(n)}
+                      </h3>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Features */}
+      <div className="bg-[var(--color-bg-alt)] px-6 md:px-12 py-16 md:py-20">
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-12">
             <span className="inline-block text-[13px] font-semibold tracking-wider uppercase text-[var(--color-accent)] mb-3">Why Choose Us</span>
@@ -122,7 +232,7 @@ function Home() {
       </div>
 
       {/* Testimonials */}
-      <div className="bg-[var(--color-bg-alt)] px-6 md:px-12 py-16 md:py-20">
+      <div className="px-6 md:px-12 py-16 md:py-20">
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-12">
             <span className="inline-block text-[13px] font-semibold tracking-wider uppercase text-[var(--color-accent)] mb-3">Testimonials</span>
@@ -148,7 +258,7 @@ function Home() {
       </div>
 
       {/* CTA */}
-      <div className="px-6 md:px-12 py-16 md:py-20">
+      <div className="bg-[var(--color-bg-alt)] px-6 md:px-12 py-16 md:py-20">
         <div className="max-w-[1200px] mx-auto text-center">
           <h2 className="text-[var(--color-text-h)] text-3xl md:text-4xl font-bold mb-3">Ready to get started?</h2>
           <p className="text-[var(--color-text)] text-lg mb-8">Join thousands of satisfied customers. Book your first service today.</p>
@@ -157,7 +267,7 @@ function Home() {
           </Link>
         </div>
       </div>
-    </section>
+    </>
   )
 }
 
