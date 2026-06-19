@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { productService } from '../services/productService'
-import { extractImageUrl, extractPrice, emojis } from '../utils/images'
+import { extractImageUrl, extractPrice, safeString, emojis } from '../utils/images'
 
 function Order() {
   const [niches, setNiches] = useState([])
@@ -40,7 +40,7 @@ function Order() {
     return allProducts.filter(p => (p.nieche_id || p.niche_id || p.nieche?.id) === nicheId)
   }, [selectedNiche, allProducts])
 
-  const nicheName = (n) => n?.name || n?.title || n?.niche_name || 'Service'
+  const nicheName = (n) => safeString(n?.name || n?.title || n?.niche_name || 'Service')
   const nicheImage = (n) => extractImageUrl(n) || n?.icon || n?.image_icon || null
 
   if (!selectedNiche) {
@@ -158,7 +158,7 @@ function Order() {
                         <div className="h-48 overflow-hidden bg-[var(--color-bg-alt)]">
                           <img
                             src={img}
-                            alt={p.name || p.title}
+                            alt={safeString(p.name || p.title)}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             onError={(e) => { e.target.style.display = 'none' }}
                           />
@@ -170,14 +170,14 @@ function Order() {
                       )}
                       <div className="p-6 flex flex-col gap-1.5 flex-1">
                         <div className="flex items-center justify-between gap-2">
-                          <h3 className="text-[var(--color-text-h)] text-lg font-semibold m-0">{p.name || p.title}</h3>
+                          <h3 className="text-[var(--color-text-h)] text-lg font-semibold m-0">{safeString(p.name || p.title)}</h3>
                           {p.popular !== false && !img && (
                             <span className="text-[10px] font-bold tracking-wider uppercase text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2.5 py-0.5 rounded-full shrink-0">Popular</span>
                           )}
                         </div>
                         {(p.description || p.desc || p.short_description) && (
                           <p className="text-[14px] leading-relaxed text-[var(--color-text)] m-0 line-clamp-2">
-                            {p.description || p.desc || p.short_description}
+                            {safeString(p.description || p.desc || p.short_description)}
                           </p>
                         )}
                         <div className="flex items-center justify-between mt-3 pt-3 border-t border-[var(--color-border)] gap-3">

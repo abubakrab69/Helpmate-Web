@@ -6,6 +6,7 @@ export const ROUTES = {
   ORDER: '/order',
   CART: '/cart',
   NICHE_PRODUCTS: (id) => `/niche/${id}`,
+  PRODUCT_DETAIL: (id) => `/product/${id}`,
 }
 
 // Auth

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { productService } from '../services/productService'
-import { extractImageUrl, emojis } from '../utils/images'
+import { extractImageUrl, safeString, emojis } from '../utils/images'
 import { ROUTES } from '../constants'
 
 const features = [
@@ -47,7 +47,7 @@ function Home() {
 
   const heroProducts = niches.slice(0, 3)
 
-  const nicheName = (n) => n?.name || n?.title || n?.niche_name || 'Category'
+  const nicheName = (n) => safeString(n?.name || n?.title || n?.niche_name || 'Category')
   const nicheImage = (n) => extractImageUrl(n) || n?.image_icon || null
   const nicheId = (n) => n?.id || n?.niche_id || n?._id
 

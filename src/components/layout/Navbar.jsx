@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import ThemeToggle from '../ui/ThemeToggle'
+import { useCart } from '../../contexts/CartContext'
 
 const navItems = [
   { to: '/', label: 'Home' },
@@ -10,6 +11,9 @@ const navItems = [
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { totalItems } = useCart()
+
+  const cartLabel = totalItems > 0 ? `Cart (${totalItems})` : 'Cart'
 
   useEffect(() => {
     if (menuOpen) {
@@ -41,7 +45,7 @@ function Navbar() {
             {navItems.map(({ to, label }) => (
               <li key={to}>
                 <NavLink to={to} end={to === '/'} className={linkClass}>
-                  {label}
+                  {to === '/cart' ? cartLabel : label}
                 </NavLink>
               </li>
             ))}
@@ -93,7 +97,7 @@ function Navbar() {
                   ${isActive ? 'bg-[var(--color-accent-bg,transparent)] text-[var(--color-accent)] font-semibold' : ''}`
                 }
               >
-                {label}
+                {to === '/cart' ? cartLabel : label}
               </NavLink>
             </li>
           ))}

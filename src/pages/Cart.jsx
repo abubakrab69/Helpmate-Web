@@ -1,34 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useCart } from '../contexts/CartContext'
 import { orderService } from '../services/orderService'
 
-const emojis = ['🧹', '🔧', '⚡', '🎨', '🔨', '🚗', '📦', '🌿', '💻', '🔒', '❄️', '🪟']
-
-const initialItems = [
-  { id: 1, title: 'Home Cleaning', price: 49, qty: 1, icon: '🧹' },
-  { id: 2, title: 'Plumbing', price: 79, qty: 2, icon: '🔧' },
-]
-
 function Cart() {
-  const [items, setItems] = useState(initialItems)
+  const { items, removeItem, updateQty, clearCart, subtotal, tax, total, totalItems } = useCart()
   const [checkingOut, setCheckingOut] = useState(false)
   const [checkoutMsg, setCheckoutMsg] = useState(null)
-
-  const updateQty = (id, delta) => {
-    setItems(prev =>
-      prev.map(item =>
-        item.id === id ? { ...item, qty: Math.max(1, item.qty + delta) } : item
-      )
-    )
-  }
-
-  const removeItem = (id) => {
-    setItems(prev => prev.filter(item => item.id !== id))
-  }
-
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0)
-  const tax = subtotal * 0.08
-  const total = subtotal + tax
 
   const handleCheckout = async () => {
     setCheckingOut(true)
@@ -38,7 +16,7 @@ function Cart() {
         items: items.map(item => ({
           product_id: item.id,
           quantity: item.qty,
-          price: item.price,
+          price: Number(item.price),
         })),
         subtotal,
         tax,
@@ -46,7 +24,7 @@ function Cart() {
       }
       const res = await orderService.create(payload)
       setCheckoutMsg('success')
-      setItems([])
+      clearCart()
     } catch (err) {
       setCheckoutMsg('error')
     } finally {
@@ -88,7 +66,7 @@ function Cart() {
           <div className="text-center mb-12">
             <span className="inline-block text-[13px] font-semibold tracking-wider uppercase text-[var(--color-accent)] mb-3">Your Order</span>
             <h1 className="text-[var(--color-text-h)] text-4xl md:text-5xl font-bold mb-3">Shopping Cart</h1>
-            <p className="text-[var(--color-text)] max-w-[540px] mx-auto">{items.length} service{items.length > 1 ? 's' : ''} selected for booking</p>
+            <p className="text-[var(--color-text)] max-w-[540px] mx-auto">{totalItems} service{totalItems > 1 ? 's' : ''} selected for booking</p>
           </div>
 
           {checkoutMsg === 'error' && (
@@ -101,21 +79,27 @@ function Cart() {
             <div className="flex flex-col gap-4">
               {items.map(item => (
                 <div key={item.id} className="flex items-center gap-5 p-6 bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl transition-all duration-300 animate-fade-up hover:shadow-[var(--shadow-sm,0_2px_8px_rgba(0,0,0,0.06))]">
-                  {item.icon && (
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-13 h-13 rounded-xl object-cover shrink-0"
+                    />
+                  ) : (
                     <span className="w-13 h-13 flex items-center justify-center bg-[var(--color-accent)]/5 rounded-xl shrink-0 text-2xl">
-                      {item.icon}
+                      📦
                     </span>
                   )}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-[var(--color-text-h)] text-base m-0 mb-1">{item.title}</h3>
-                    <span className="text-[14px] text-[var(--color-text)]">${item.price} / session</span>
+                    <h3 className="text-[var(--color-text-h)] text-base m-0 mb-1">{item.name}</h3>
+                    <span className="text-[14px] text-[var(--color-text)]">${Number(item.price).toFixed(2)} / session</span>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
                     <button onClick={() => updateQty(item.id, -1)} className="w-9 h-9 rounded-lg border border-[var(--color-border)] bg-[var(--color-card)] text-lg cursor-pointer flex items-center justify-center text-[var(--color-text-h)] transition-all duration-300 hover:bg-[var(--color-accent)]/5 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]" aria-label="Decrease quantity">−</button>
                     <span className="font-semibold text-base min-w-5 text-center text-[var(--color-text-h)]">{item.qty}</span>
                     <button onClick={() => updateQty(item.id, 1)} className="w-9 h-9 rounded-lg border border-[var(--color-border)] bg-[var(--color-card)] text-lg cursor-pointer flex items-center justify-center text-[var(--color-text-h)] transition-all duration-300 hover:bg-[var(--color-accent)]/5 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]" aria-label="Increase quantity">+</button>
                   </div>
-                  <div className="font-bold text-[17px] text-[var(--color-text-h)] min-w-70px text-right shrink-0">${(item.price * item.qty).toFixed(2)}</div>
+                  <div className="font-bold text-[17px] text-[var(--color-text-h)] min-w-70px text-right shrink-0">${(Number(item.price) * item.qty).toFixed(2)}</div>
                   <button onClick={() => removeItem(item.id)} className="bg-none border-none text-[14px] text-[var(--color-text)] cursor-pointer p-2 rounded-lg transition-all duration-300 shrink-0 hover:bg-red-100 dark:hover:bg-red-900/20 hover:text-red-500" aria-label="Remove item">✕</button>
                 </div>
               ))}

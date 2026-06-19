@@ -27,7 +27,17 @@ export function extractImageUrl(product) {
 }
 
 export function extractPrice(product) {
-  return product?.price || product?.starting_price || product?.amount || null
+  const raw = product?.price || product?.starting_price || product?.amount || null
+  if (raw === null) return null
+  if (typeof raw === 'object') return null
+  return raw
 }
 
 export const emojis = ['🧹', '🔧', '⚡', '🎨', '🔨', '🚗', '📦', '🌿', '💻', '🔒', '❄️', '🪟', '🍳', '📚', '🎵', '🏋️']
+
+export function safeString(value, fallback = '') {
+  if (!value) return fallback
+  if (typeof value === 'string') return value
+  if (typeof value === 'object' && value?.name) return value.name
+  return String(value)
+}

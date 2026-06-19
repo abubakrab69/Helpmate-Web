@@ -1,11 +1,14 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { productService } from '../services/productService'
-import { extractImageUrl, extractPrice, emojis } from '../utils/images'
+import { extractImageUrl, extractPrice, emojis, safeString } from '../utils/images'
+import { useCart } from '../contexts/CartContext'
+import { ROUTES } from '../constants'
 
 function NicheProducts() {
   const { nicheId } = useParams()
   const navigate = useNavigate()
+  const { addItem, items } = useCart()
 
   const [niches, setNiches] = useState([])
   const [allProducts, setAllProducts] = useState([])
@@ -43,7 +46,7 @@ function NicheProducts() {
     })
   }, [niches, nicheId])
 
-  const nicheName = (n) => n?.name || n?.title || n?.niche_name || 'Category'
+  const nicheName = (n) => safeString(n?.name || n?.title || n?.niche_name || 'Category')
 
   const products = useMemo(() => {
     return allProducts.filter(p => {
@@ -101,41 +104,54 @@ function NicheProducts() {
               {products.map((p, i) => {
                 const img = extractImageUrl(p)
                 const price = extractPrice(p)
+                const pId = p.id || p._id
+                const inCart = items.find(item => String(item.id) === String(pId))
                 return (
                   <div
-                    key={p.id || i}
+                    key={pId || i}
                     className="group bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl overflow-hidden text-left flex flex-col transition-all duration-300 relative animate-fade-up hover:shadow-[var(--shadow-hover,0_16px_48px_rgba(0,0,0,0.1))] hover:-translate-y-1 hover:border-transparent"
                     style={{ animationDelay: `${i * 0.04}s` }}
                   >
-                    {img ? (
-                      <div className="h-48 overflow-hidden bg-[var(--color-bg-alt)]">
-                        <img
-                          src={img}
-                          alt={p.name || p.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          onError={(e) => { e.target.style.display = 'none' }}
-                        />
-                      </div>
-                    ) : (
-                      <div className="h-48 bg-gradient-to-br from-[var(--color-accent)]/5 to-[var(--color-accent)]/10 flex items-center justify-center">
-                        <span className="text-5xl">{emojis[i % emojis.length]}</span>
-                      </div>
-                    )}
-                    <div className="p-6 flex flex-col gap-1.5 flex-1">
-                      <h3 className="text-[var(--color-text-h)] text-lg font-semibold m-0">{p.name || p.title}</h3>
-                      {(p.description || p.desc || p.short_description) && (
-                        <p className="text-[14px] leading-relaxed text-[var(--color-text)] m-0 line-clamp-2">
-                          {p.description || p.desc || p.short_description}
-                        </p>
+                    <Link to={ROUTES.PRODUCT_DETAIL(pId)} className="no-underline">
+                      {img ? (
+                        <div className="h-48 overflow-hidden bg-[var(--color-bg-alt)]">
+                          <img
+                            src={img}
+                            alt={safeString(p.name || p.title)}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            onError={(e) => { e.target.style.display = 'none' }}
+                          />
+                        </div>
+                      ) : (
+                        <div className="h-48 bg-gradient-to-br from-[var(--color-accent)]/5 to-[var(--color-accent)]/10 flex items-center justify-center">
+                          <span className="text-5xl">{emojis[i % emojis.length]}</span>
+                        </div>
                       )}
-                      <div className="flex items-center justify-between mt-3 pt-3 border-t border-[var(--color-border)] gap-3">
-                        <span className="text-2xl font-bold text-[var(--color-accent)]">
-                          {price ? `$${price}` : 'Contact'}
-                        </span>
-                        <button className="bg-[var(--color-accent)] text-white text-[13px] font-semibold px-5 py-2.5 rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:-translate-y-0.5 active:scale-96">
-                          Book Now
-                        </button>
+                      <div className="p-6 flex flex-col gap-1.5 flex-1">
+                        <h3 className="text-[var(--color-text-h)] text-lg font-semibold m-0">{safeString(p.name || p.title)}</h3>
+                        {(p.description || p.desc || p.short_description) && (
+                          <p className="text-[14px] leading-relaxed text-[var(--color-text)] m-0 line-clamp-2">
+                            {safeString(p.description || p.desc || p.short_description)}
+                          </p>
+                        )}
                       </div>
+                    </Link>
+                    <div className="flex items-center justify-between px-6 pb-6 gap-3">
+                      <span className="text-2xl font-bold text-[var(--color-accent)]">
+                        {price ? `$${price}` : 'Contact'}
+                      </span>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault()
+                          addItem({ ...p, _img: img })
+                        }}
+                        className={`flex items-center gap-1.5 text-[13px] font-semibold px-5 py-2.5 rounded-xl border-none cursor-pointer transition-all duration-300 hover:-translate-y-0.5 active:scale-96 ${inCart
+                          ? 'bg-green-500 text-white hover:bg-green-600'
+                          : 'bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-light)]'
+                        }`}
+                      >
+                        {inCart ? `✓ ${inCart.qty}` : '🛒 Add'}
+                      </button>
                     </div>
                   </div>
                 )
