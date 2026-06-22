@@ -54,7 +54,7 @@ function Home() {
   return (
     <>
       {/* Hero */}
-      <div className="hero-wrap bg-[var(--color-accent)] px-6 md:px-12 py-14 md:py-20">
+      <div className="hero-wrap bg-[var(--color-accent)] px-6 md:px-12 py-14 md:py-20 mt-10">
         <div className="flex items-center gap-12 md:gap-20 text-left max-w-[1200px] mx-auto max-md:flex-col max-md:text-center">
           <div className="flex-1 animate-fade-up">
             <div className="inline-flex items-center gap-1.5 bg-white/20 text-white text-[13px] font-semibold px-4 py-1.5 rounded-full mb-6">

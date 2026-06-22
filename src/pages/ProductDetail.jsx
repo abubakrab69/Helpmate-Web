@@ -101,9 +101,15 @@ function ProductDetail() {
           )}
 
           <div className="flex flex-col gap-4">
-            <h1 className="text-[var(--color-text-h)] text-3xl md:text-4xl font-bold m-0">
-              {safeString(product.name || product.title)}
-            </h1>
+            <div className='flex flex-row gap-3'>
+              <h1 className="text-[var(--color-text-h)] text-3xl md:text-4xl font-bold m-0">
+                {safeString(product.name || product.title)}
+              </h1>
+              {
+                product.stock > 0 ? <div className='pl-4 pr-4 p-1 mt-2 text-green-500 bg-green-500/20 rounded-full'>In Stock</div> : <div className='pl-4 pr-4 p-1 mt-2 text-red-500 bg-red-500/20 rounded-full'>Out of stock</div>
+              }
+
+            </div>
 
             <div className="text-3xl font-extrabold text-[var(--color-accent)]">
               {price ? `$${price}` : 'Contact for price'}
@@ -127,7 +133,7 @@ function ProductDetail() {
               className={`flex items-center justify-center gap-2 text-[15px] font-semibold px-8 py-4 rounded-xl border-none cursor-pointer transition-all duration-300 hover:-translate-y-0.5 active:scale-96 ${inCart
                 ? 'bg-green-500 text-white hover:bg-green-600'
                 : 'bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-light)]'
-              }`}
+                }`}
             >
               {inCart
                 ? <>✓ Added to Cart ({inCart.qty})</>
