@@ -61,7 +61,7 @@ function NicheProducts() {
         <div className="flex items-center gap-4 mb-8 flex-wrap">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-1.5 bg-transparent border border-[var(--color-border)] text-[var(--color-text)] text-[14px] font-medium px-4 py-2 rounded-xl cursor-pointer transition-all duration-300 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+            className="flex items-center gap-1.5 bg-transparent border border-[var(--color-border)] text-[var(--color-text)] text-[14px] font-medium px-4 py-2 rounded-full cursor-pointer transition-all duration-300 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
           >
             ← Back
           </button>
@@ -90,7 +90,7 @@ function NicheProducts() {
             <p className="text-[var(--color-text)] text-lg mb-6">No services available in this category yet.</p>
             <button
               onClick={() => navigate('/order')}
-              className="bg-[var(--color-accent)] text-white text-[14px] font-semibold px-7 py-3 rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)]"
+              className="bg-[var(--color-accent)] text-white text-[14px] font-semibold px-7 py-3 rounded-full border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)]"
             >
               Browse All Categories
             </button>
@@ -145,10 +145,10 @@ function NicheProducts() {
                           e.preventDefault()
                           addItem({ ...p, _img: img })
                         }}
-                        className={`flex items-center gap-1.5 text-[13px] font-semibold px-5 py-2.5 rounded-xl border-none cursor-pointer transition-all duration-300 hover:-translate-y-0.5 active:scale-96 ${inCart
+                        className={`flex items-center gap-1.5 text-[13px] font-semibold px-5 py-2.5 rounded-full border-none cursor-pointer transition-all duration-300 hover:-translate-y-0.5 active:scale-96 ${inCart
                           ? 'bg-green-500 text-white hover:bg-green-600'
                           : 'bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-light)]'
-                        }`}
+                          }`}
                       >
                         {inCart ? `✓ ${inCart.qty}` : '🛒 Add'}
                       </button>
