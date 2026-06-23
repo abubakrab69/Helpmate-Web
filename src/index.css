@@ -29,6 +29,7 @@
 
 .navbar { background: rgba(255, 255, 255, 0.92); }
 [data-theme="dark"] .navbar { background: rgba(15, 11, 9, 0.92); }
+.footer { background: var(--color-bg-alt); }
 [data-theme="dark"] .footer { background: #080605; }
 [data-theme="dark"] .hero-wrap { background: #e06000; }
 
