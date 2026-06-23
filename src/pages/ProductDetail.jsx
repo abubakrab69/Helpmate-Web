@@ -63,7 +63,7 @@ function ProductDetail() {
         <p className="text-[var(--color-text)] mb-6">This service may have been removed or is unavailable.</p>
         <button
           onClick={() => navigate(-1)}
-          className="bg-[var(--color-accent)] text-white text-[14px] font-semibold px-7 py-3 rounded-xl border-none cursor-pointer"
+          className="bg-[var(--color-accent)] text-white text-[14px] font-semibold px-7 py-3 rounded-full border-none cursor-pointer"
         >
           Go Back
         </button>
@@ -80,7 +80,7 @@ function ProductDetail() {
       <div className="max-w-[1200px] mx-auto">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-1.5 bg-transparent border border-[var(--color-border)] text-[var(--color-text)] text-[14px] font-medium px-4 py-2 rounded-xl cursor-pointer transition-all duration-300 mb-8 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+          className="flex items-center gap-1.5 bg-transparent border border-[var(--color-border)] text-[var(--color-text)] text-[14px] font-medium px-4 py-2 rounded-full cursor-pointer transition-all duration-300 mb-8 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
         >
           ← Back
         </button>
@@ -130,7 +130,7 @@ function ProductDetail() {
               onClick={() => {
                 addItem({ ...product, _img: img })
               }}
-              className={`flex items-center justify-center gap-2 text-[15px] font-semibold px-8 py-4 rounded-xl border-none cursor-pointer transition-all duration-300 hover:-translate-y-0.5 active:scale-96 ${inCart
+              className={`flex items-center justify-center gap-2 text-[15px] font-semibold px-8 py-4 rounded-full border-none cursor-pointer transition-all duration-300 hover:-translate-y-0.5 active:scale-96 ${inCart
                 ? 'bg-green-500 text-white hover:bg-green-600'
                 : 'bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-light)]'
                 }`}
@@ -144,7 +144,7 @@ function ProductDetail() {
             {inCart && (
               <button
                 onClick={() => navigate('/cart')}
-                className="flex items-center justify-center gap-2 text-[15px] font-semibold px-8 py-4 rounded-xl border-2 border-[var(--color-accent)] text-[var(--color-accent)] bg-transparent cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent)]/5"
+                className="flex items-center justify-center gap-2 text-[15px] font-semibold px-8 py-4 rounded-full border-2 border-[var(--color-accent)] text-[var(--color-accent)] bg-transparent cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent)]/5"
               >
                 View Cart →
               </button>

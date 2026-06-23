@@ -51,9 +51,11 @@ function Navbar() {
             ))}
           </ul>
 
+
           <div className="hidden md:flex items-center gap-1">
+
             <ThemeToggle />
-            <button className="bg-[var(--color-accent)] text-white text-[15px] font-semibold px-7 py-2.5 rounded-xl border-none cursor-pointer transition-all duration-300 shadow-[0_4px_16px_var(--color-accent-border,transparent)] hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
+            <button className="bg-[var(--color-accent)] text-white text-[15px] font-semibold px-7 py-2.5 rounded-full border-none cursor-pointer transition-all duration-300 shadow-[0_4px_16px_var(--color-accent-border,transparent)] hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
               Sign Up
             </button>
           </div>
