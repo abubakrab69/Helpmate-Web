@@ -89,7 +89,7 @@ function NicheProducts() {
             <span className="text-[48px] block mb-4">📭</span>
             <p className="text-[var(--color-text)] text-lg mb-6">No services available in this category yet.</p>
             <button
-              onClick={() => navigate('/order')}
+              onClick={() => navigate('/')}
               className="bg-[var(--color-accent)] text-white text-[14px] font-semibold px-7 py-3 rounded-full border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)]"
             >
               Browse All Categories

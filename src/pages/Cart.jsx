@@ -50,7 +50,7 @@ function Cart() {
                 <p className="text-[var(--color-text)] text-base mb-8">Looks like you haven't added any services yet.</p>
               </>
             )}
-            <Link to="/order" className="inline-flex items-center gap-2 bg-[var(--color-accent)] text-white text-base font-semibold px-9 py-4 rounded-full shadow-[0_4px_16px_var(--color-accent-border,transparent)] transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
+            <Link to="/" className="inline-flex items-center gap-2 bg-[var(--color-accent)] text-white text-base font-semibold px-9 py-4 rounded-full shadow-[0_4px_16px_var(--color-accent-border,transparent)] transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
               {checkoutMsg === 'success' ? 'Book More Services →' : 'Browse Services →'}
             </Link>
           </div>
@@ -130,7 +130,7 @@ function Cart() {
               >
                 {checkingOut ? 'Processing...' : 'Proceed to Checkout →'}
               </button>
-              <Link to="/order" className="block text-center text-[var(--color-text)] text-[15px] no-underline mt-3 py-2.5 rounded-xl transition-colors duration-300 hover:text-[var(--color-accent)]">
+              <Link to="/" className="block text-center text-[var(--color-text)] text-[15px] no-underline mt-3 py-2.5 rounded-xl transition-colors duration-300 hover:text-[var(--color-accent)]">
                 Continue Browsing
               </Link>
             </div>

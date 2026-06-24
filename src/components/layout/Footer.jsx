@@ -15,10 +15,10 @@ const quickLinks = [
 ]
 
 const services = [
-  { label: 'Home Cleaning', to: '/order' },
-  { label: 'Plumbing', to: '/order' },
-  { label: 'Electrical', to: '/order' },
-  { label: 'Gardening', to: '/order' },
+  { label: 'Home Cleaning', to: '/' },
+  { label: 'Plumbing', to: '/' },
+  { label: 'Electrical', to: '/' },
+  { label: 'Gardening', to: '/' },
 ]
 
 function Footer() {

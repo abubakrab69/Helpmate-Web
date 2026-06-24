@@ -5,7 +5,7 @@ import { useCart } from '../../contexts/CartContext'
 
 const navItems = [
   { to: '/', label: 'Home' },
-  { to: '/order', label: 'Order' },
+  { to: '/order', label: 'Order History' },
   { to: '/cart', label: 'Cart' },
 ]
 

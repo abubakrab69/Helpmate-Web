@@ -68,7 +68,7 @@ function Home() {
               Connect with verified professionals for cleaning, repairs, plumbing, electrical work, and more. Book in seconds.
             </p>
             <div className="flex gap-4 flex-wrap max-md:justify-center">
-              <Link to="/order" className="inline-flex items-center gap-2.5 bg-white text-[var(--color-accent)] text-[16px] font-semibold px-9 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-all duration-300 hover:shadow-[0_12px_36px_rgba(0,0,0,0.25)] hover:-translate-y-1 active:scale-96">
+              <Link to="/" className="inline-flex items-center gap-2.5 bg-white text-[var(--color-accent)] text-[16px] font-semibold px-9 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition-all duration-300 hover:shadow-[0_12px_36px_rgba(0,0,0,0.25)] hover:-translate-y-1 active:scale-96">
                 Browse Services
                 <span className="inline-block transition-transform duration-300 hover:translate-x-1">→</span>
               </Link>
@@ -262,7 +262,7 @@ function Home() {
         <div className="max-w-[1200px] mx-auto text-center">
           <h2 className="text-[var(--color-text-h)] text-3xl md:text-4xl font-bold mb-3">Ready to get started?</h2>
           <p className="text-[var(--color-text)] text-lg mb-8">Join thousands of satisfied customers. Book your first service today.</p>
-          <Link to="/order" className="inline-flex items-center gap-2 bg-[var(--color-accent)] text-white text-base font-semibold px-9 py-4 rounded-full shadow-[0_4px_16px_var(--color-accent-border,transparent)] transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
+          <Link to="/" className="inline-flex items-center gap-2 bg-[var(--color-accent)] text-white text-base font-semibold px-9 py-4 rounded-full shadow-[0_4px_16px_var(--color-accent-border,transparent)] transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
             Get Started Now →
           </Link>
         </div>
