@@ -112,7 +112,7 @@ function ProductDetail() {
             </div>
 
             <div className="text-3xl font-extrabold text-[var(--color-accent)]">
-              {price ? `$${price}` : 'Contact for price'}
+              {price ? `Rs. ${price}` : 'Contact for price'}
             </div>
 
             <p className="text-[15px] leading-relaxed text-[var(--color-text)] m-0">

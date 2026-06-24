@@ -92,14 +92,14 @@ function Cart() {
                   )}
                   <div className="flex-1 min-w-0">
                     <h3 className="text-[var(--color-text-h)] text-base m-0 mb-1">{item.name}</h3>
-                    <span className="text-[14px] text-[var(--color-text)]">${Number(item.price).toFixed(2)} / session</span>
+                    <span className="text-[14px] text-[var(--color-text)]">Rs. {Number(item.price).toFixed(2)} / session</span>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
                     <button onClick={() => updateQty(item.id, -1)} className="w-9 h-9 rounded-lg border border-[var(--color-border)] bg-[var(--color-card)] text-lg cursor-pointer flex items-center justify-center text-[var(--color-text-h)] transition-all duration-300 hover:bg-[var(--color-accent)]/5 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]" aria-label="Decrease quantity">−</button>
                     <span className="font-semibold text-base min-w-5 text-center text-[var(--color-text-h)]">{item.qty}</span>
                     <button onClick={() => updateQty(item.id, 1)} className="w-9 h-9 rounded-lg border border-[var(--color-border)] bg-[var(--color-card)] text-lg cursor-pointer flex items-center justify-center text-[var(--color-text-h)] transition-all duration-300 hover:bg-[var(--color-accent)]/5 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]" aria-label="Increase quantity">+</button>
                   </div>
-                  <div className="font-bold text-[17px] text-[var(--color-text-h)] min-w-70px text-right shrink-0">${(Number(item.price) * item.qty).toFixed(2)}</div>
+                  <div className="font-bold text-[17px] text-[var(--color-text-h)] min-w-70px text-right shrink-0">Rs. {(Number(item.price) * item.qty).toFixed(2)}</div>
                   <button onClick={() => removeItem(item.id)} className="bg-none border-none text-[14px] text-[var(--color-text)] cursor-pointer p-2 rounded-lg transition-all duration-300 shrink-0 hover:bg-red-100 dark:hover:bg-red-900/20 hover:text-red-500" aria-label="Remove item">✕</button>
                 </div>
               ))}
@@ -109,11 +109,11 @@ function Cart() {
               <h3 className="text-[var(--color-text-h)] text-xl m-0 mb-6">Order Summary</h3>
               <div className="flex justify-between text-[15px] py-2.5 text-[var(--color-text)]">
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>Rs. {subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-[15px] py-2.5 text-[var(--color-text)]">
                 <span>Tax (8%)</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>Rs. {tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-[15px] py-2.5 text-[var(--color-text)]">
                 <span>Service Fee</span>
@@ -121,7 +121,7 @@ function Cart() {
               </div>
               <div className="flex justify-between border-t border-[var(--color-border)] mt-2 pt-5 text-xl font-bold text-[var(--color-text-h)]">
                 <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+                <span>Rs. {total.toFixed(2)}</span>
               </div>
               <button
                 onClick={handleCheckout}

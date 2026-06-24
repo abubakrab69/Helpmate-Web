@@ -138,7 +138,7 @@ function NicheProducts() {
                     </Link>
                     <div className="flex items-center justify-between px-6 pb-6 gap-3">
                       <span className="text-2xl font-bold text-[var(--color-accent)]">
-                        {price ? `$${price}` : 'Contact'}
+                        {price ? `Rs. ${price}` : 'Contact'}
                       </span>
                       <button
                         onClick={(e) => {
