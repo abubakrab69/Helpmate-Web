@@ -262,7 +262,7 @@ function Home() {
         <div className="max-w-[1200px] mx-auto text-center">
           <h2 className="text-[var(--color-text-h)] text-3xl md:text-4xl font-bold mb-3">Ready to get started?</h2>
           <p className="text-[var(--color-text)] text-lg mb-8">Join thousands of satisfied customers. Book your first service today.</p>
-          <Link to="/order" className="inline-flex items-center gap-2 bg-[var(--color-accent)] text-white text-base font-semibold px-9 py-4 rounded-xl shadow-[0_4px_16px_var(--color-accent-border,transparent)] transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
+          <Link to="/order" className="inline-flex items-center gap-2 bg-[var(--color-accent)] text-white text-base font-semibold px-9 py-4 rounded-full shadow-[0_4px_16px_var(--color-accent-border,transparent)] transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
             Get Started Now →
           </Link>
         </div>
