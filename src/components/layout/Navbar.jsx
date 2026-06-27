@@ -109,7 +109,7 @@ function Navbar() {
           <ThemeToggle />
           <button
             onClick={closeMenu}
-            className="flex-1 bg-[var(--color-accent)] text-white text-[15px] font-semibold px-7 py-3 rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)]"
+            className="flex-1 bg-[[var(--color-accent)] ]text-white text-[15px] font-semibold px-7 py-3 rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)]"
           >
             Sign Up
           </button>
