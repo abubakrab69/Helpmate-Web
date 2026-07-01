@@ -8,8 +8,8 @@ const socials = [
 ]
 
 const quickLinks = [
-  { label: 'About Us', to: '#' },
-  { label: 'Contact', to: '#' },
+  { label: 'About Us', to: '/about' },
+  { label: 'Contact', to: '/contact' },
   { label: 'FAQ', to: '#' },
   { label: 'Privacy Policy', to: '#' },
 ]

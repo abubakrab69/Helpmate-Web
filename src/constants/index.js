@@ -3,6 +3,8 @@ export const APP_VERSION = '1.0.0'
 
 export const ROUTES = {
   HOME: '/',
+  ABOUT: '/about',
+  CONTACT: '/contact',
   ORDER: '/order',
   CART: '/cart',
   NICHE_PRODUCTS: (id) => `/niche/${id}`,
