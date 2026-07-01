@@ -5,6 +5,8 @@ import { useCart } from '../../contexts/CartContext'
 
 const navItems = [
   { to: '/', label: 'Home' },
+  { to: '/about', label: 'About Us' },
+  { to: '/contact', label: 'Contact' },
   { to: '/order', label: 'Order History' },
 ]
 
