@@ -6,14 +6,11 @@ import { useCart } from '../../contexts/CartContext'
 const navItems = [
   { to: '/', label: 'Home' },
   { to: '/order', label: 'Order History' },
-  { to: '/cart', label: 'Cart' },
 ]
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const { totalItems } = useCart()
-
-  const cartLabel = totalItems > 0 ? `Cart (${totalItems})` : 'Cart'
 
   useEffect(() => {
     if (menuOpen) {
@@ -45,7 +42,7 @@ function Navbar() {
             {navItems.map(({ to, label }) => (
               <li key={to}>
                 <NavLink to={to} end={to === '/'} className={linkClass}>
-                  {to === '/cart' ? cartLabel : label}
+                  {label}
                 </NavLink>
               </li>
             ))}
@@ -53,7 +50,21 @@ function Navbar() {
 
 
           <div className="hidden md:flex items-center gap-1">
-
+            <NavLink
+              to="/cart"
+              className="relative w-10 h-10 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg,#fff)] cursor-pointer flex items-center justify-center transition-all duration-300 hover:border-[var(--color-accent)] hover:bg-[var(--color-accent-bg,transparent)] no-underline text-[var(--color-text)]"
+              aria-label="Cart"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              {totalItems > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[11px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md">
+                  {totalItems > 99 ? '99+' : totalItems}
+                </span>
+              )}
+            </NavLink>
             <ThemeToggle />
             <button className="bg-[var(--color-accent)] text-white text-[15px] font-semibold px-7 py-2.5 rounded-full border-none cursor-pointer transition-all duration-300 shadow-[0_4px_16px_var(--color-accent-border,transparent)] hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
               Sign Up
@@ -99,13 +110,29 @@ function Navbar() {
                   ${isActive ? 'bg-[var(--color-accent-bg,transparent)] text-[var(--color-accent)] font-semibold' : ''}`
                 }
               >
-                {to === '/cart' ? cartLabel : label}
+                {label}
               </NavLink>
             </li>
           ))}
         </ul>
 
         <div className="flex items-center gap-3 px-5">
+          <NavLink
+            to="/cart"
+            onClick={closeMenu}
+            className="relative w-10 h-10 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg,#fff)] cursor-pointer flex items-center justify-center transition-all duration-300 hover:border-[var(--color-accent)] hover:bg-[var(--color-accent-bg,transparent)] no-underline text-[var(--color-text)] shrink-0"
+            aria-label="Cart"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            {totalItems > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[11px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md">
+                {totalItems > 99 ? '99+' : totalItems}
+              </span>
+            )}
+          </NavLink>
           <ThemeToggle />
           <button
             onClick={closeMenu}
