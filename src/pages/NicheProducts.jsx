@@ -100,7 +100,7 @@ function NicheProducts() {
             <p className="text-[var(--color-text)] text-[15px] mb-6">
               {products.length} service{products.length > 1 ? 's' : ''} available
             </p>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+            <div className="grid grid-cols-3 gap-6 max-md:grid-cols-1">
               {products.map((p, i) => {
                 const img = extractImageUrl(p)
                 const price = extractPrice(p)
