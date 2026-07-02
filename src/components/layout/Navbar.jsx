@@ -33,7 +33,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="navbar flex items-center px-4 sm:px-6 md:px-12 h-[72px] border-b border-[var(--color-border)] backdrop-blur-xl fixed top-4 left-1/2 -translate-x-1/2 w-[79%] z-100 transition-[background,border-color] duration-300 rounded-full">
+      <nav className="navbar flex items-center px-4 sm:px-6 md:px-12 h-[72px] border-b border-[var(--color-border)] backdrop-blur-xl bg-[var(--color-bg)]/70 fixed top-4 left-1/2 -translate-x-1/2 w-[79%] z-100 transition-[background,border-color] duration-300 rounded-full">
         <div className="flex items-center justify-between w-full max-w-[1200px] mx-auto">
           <NavLink to="/" onClick={closeMenu} className="text-[22px] font-extrabold text-white bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-accent-light)] w-11 h-11 flex items-center justify-center rounded-xl no-underline shadow-[0_4px_12px_var(--color-accent-border,transparent)] transition-all duration-500 hover:scale-105 hover:-rotate-3 shrink-0">
             H
