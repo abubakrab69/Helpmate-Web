@@ -123,7 +123,7 @@ function Contact() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-[var(--color-accent)] text-white text-base font-semibold px-8 py-3.5 rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:-translate-y-0.5 active:scale-96"
+                    className="w-full bg-[var(--color-accent)] text-white text-base font-semibold px-8 py-3.5 rounded-full border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:-translate-y-0.5 active:scale-96"
                   >
                     Send Message →
                   </button>
