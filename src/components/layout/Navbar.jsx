@@ -26,14 +26,14 @@ function Navbar() {
   const closeMenu = () => setMenuOpen(false)
 
   const linkClass = ({ isActive }) =>
-    `no-underline text-[var(--color-text)] text-[15px] px-5 py-2 rounded-lg transition-all duration-300 font-medium relative
+    `no-underline text-[var(--color-text)] text-[15px] px-5 md:px-3 lg:px-5 py-2 rounded-lg transition-all duration-300 font-medium relative
     after:content-[''] after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:scale-x-0 after:w-3/5 after:h-[2px] after:bg-[var(--color-accent)] after:rounded-sm after:transition-transform after:duration-300
     hover:bg-[var(--color-accent-bg,transparent)] hover:text-[var(--color-accent)]
     ${isActive ? 'bg-[var(--color-accent-bg,transparent)] text-[var(--color-accent)] font-semibold after:scale-x-100' : ''}`
 
   return (
     <>
-      <nav className="navbar flex items-center px-4 sm:px-6 md:px-12 h-[72px] border-b border-[var(--color-border)] backdrop-blur-xl bg-[var(--color-bg)]/70 fixed top-4 left-1/2 -translate-x-1/2 w-[79%] z-100 transition-[background,border-color] duration-300 rounded-full">
+      <nav className="navbar flex items-center px-4 sm:px-6 md:px-12 h-[72px] border-b border-[var(--color-border)] backdrop-blur-xl bg-[var(--color-bg)]/70 fixed top-4 left-1/2 -translate-x-1/2 w-[95%] sm:w-[92%] md:w-[92%] lg:w-[85%] xl:w-[79%] z-100 transition-[background,border-color] duration-300 rounded-full">
         <div className="flex items-center justify-between w-full max-w-[1200px] mx-auto">
           <NavLink to="/" onClick={closeMenu} className="text-[22px] font-extrabold text-white bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-accent-light)] w-11 h-11 flex items-center justify-center rounded-xl no-underline shadow-[0_4px_12px_var(--color-accent-border,transparent)] transition-all duration-500 hover:scale-105 hover:-rotate-3 shrink-0">
             H
@@ -68,7 +68,7 @@ function Navbar() {
               )}
             </NavLink>
             <ThemeToggle />
-            <button className="bg-[var(--color-accent)] text-white text-[15px] font-semibold px-7 py-2.5 rounded-full border-none cursor-pointer transition-all duration-300 shadow-[0_4px_16px_var(--color-accent-border,transparent)] hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
+            <button className="bg-[var(--color-accent)] text-white text-[15px] md:text-[14px] lg:text-[15px] font-semibold px-7 md:px-5 lg:px-7 py-2.5 rounded-full border-none cursor-pointer transition-all duration-300 shadow-[0_4px_16px_var(--color-accent-border,transparent)] hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
               Sign Up
             </button>
           </div>
@@ -138,7 +138,7 @@ function Navbar() {
           <ThemeToggle />
           <button
             onClick={closeMenu}
-            className="flex-1 bg-[[var(--color-accent)] ]text-white text-[15px] font-semibold px-7 py-3 rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)]"
+            className="flex-1 bg-[var(--color-accent)] text-white text-[15px] font-semibold px-7 py-3 rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)]"
           >
             Sign Up
           </button>

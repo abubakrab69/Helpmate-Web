@@ -75,11 +75,11 @@ function NicheProducts() {
           <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
             {[1, 2, 3, 4, 5, 6].map(i => (
               <div key={i} className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl overflow-hidden animate-pulse">
-                <div className="h-48 bg-[var(--color-border)]" />
-                <div className="p-6 space-y-3">
-                  <div className="h-5 w-3/4 bg-[var(--color-border)] rounded" />
-                  <div className="h-4 w-full bg-[var(--color-border)] rounded" />
-                  <div className="h-4 w-1/2 bg-[var(--color-border)] rounded" />
+                <div className="h-40 sm:h-48 bg-[var(--color-border)]" />
+                <div className="p-4 sm:p-5 space-y-2.5">
+                  <div className="h-4 w-3/4 bg-[var(--color-border)] rounded" />
+                  <div className="h-3.5 w-full bg-[var(--color-border)] rounded" />
+                  <div className="h-3.5 w-1/2 bg-[var(--color-border)] rounded" />
                 </div>
               </div>
             ))}
@@ -100,7 +100,7 @@ function NicheProducts() {
             <p className="text-[var(--color-text)] text-[15px] mb-6">
               {products.length} service{products.length > 1 ? 's' : ''} available
             </p>
-            <div className="grid grid-cols-3 gap-6 max-md:grid-cols-1">
+            <div className="grid grid-cols-2 max-[424px]:grid-cols-1 lg:grid-cols-3 gap-6">
               {products.map((p, i) => {
                 const img = extractImageUrl(p)
                 const price = extractPrice(p)
@@ -114,7 +114,7 @@ function NicheProducts() {
                   >
                     <Link to={ROUTES.PRODUCT_DETAIL(pId)} className="no-underline">
                       {img ? (
-                        <div className="h-48 overflow-hidden bg-[var(--color-bg-alt)]">
+                        <div className="h-40 sm:h-48 overflow-hidden bg-[var(--color-bg-alt)]">
                           <img
                             src={img}
                             alt={safeString(p.name || p.title)}
@@ -123,21 +123,21 @@ function NicheProducts() {
                           />
                         </div>
                       ) : (
-                        <div className="h-48 bg-gradient-to-br from-[var(--color-accent)]/5 to-[var(--color-accent)]/10 flex items-center justify-center">
-                          <span className="text-5xl">{emojis[i % emojis.length]}</span>
+                        <div className="h-40 sm:h-48 bg-gradient-to-br from-[var(--color-accent)]/5 to-[var(--color-accent)]/10 flex items-center justify-center">
+                          <span className="text-4xl sm:text-5xl">{emojis[i % emojis.length]}</span>
                         </div>
                       )}
-                      <div className="p-6 flex flex-col gap-1.5 flex-1">
-                        <h3 className="text-[var(--color-text-h)] text-lg font-semibold m-0">{safeString(p.name || p.title)}</h3>
+                      <div className="p-4 sm:p-5 flex flex-col gap-1 flex-1">
+                        <h3 className="text-[var(--color-text-h)] text-[15px] sm:text-lg font-semibold m-0">{safeString(p.name || p.title)}</h3>
                         {(p.description || p.desc || p.short_description) && (
-                          <p className="text-[14px] leading-relaxed text-[var(--color-text)] m-0 line-clamp-2">
+                          <p className="text-[13px] sm:text-[14px] leading-relaxed text-[var(--color-text)] m-0 line-clamp-2">
                             {safeString(p.description || p.desc || p.short_description)}
                           </p>
                         )}
                       </div>
                     </Link>
-                    <div className="flex items-center justify-between px-6 pb-6 gap-3">
-                      <span className="text-2xl font-bold text-[var(--color-accent)]">
+                    <div className="flex items-center justify-between px-4 sm:px-5 pb-4 sm:pb-5 gap-2">
+                      <span className="text-[15px] sm:text-lg font-bold text-[var(--color-accent)] truncate">
                         {price ? `Rs. ${price}` : 'Contact'}
                       </span>
                       <button
@@ -145,7 +145,7 @@ function NicheProducts() {
                           e.preventDefault()
                           addItem({ ...p, _img: img })
                         }}
-                        className={`flex items-center gap-1.5 text-[13px] font-semibold px-5 py-2.5 rounded-full border-none cursor-pointer transition-all duration-300 hover:-translate-y-0.5 active:scale-96 ${inCart
+                        className={`flex items-center gap-1 text-[12px] sm:text-[13px] font-semibold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border-none cursor-pointer transition-all duration-300 hover:-translate-y-0.5 active:scale-96 whitespace-nowrap ${inCart
                           ? 'bg-green-500 text-white hover:bg-green-600'
                           : 'bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-light)]'
                           }`}

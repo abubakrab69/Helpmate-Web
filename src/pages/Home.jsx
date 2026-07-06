@@ -129,7 +129,7 @@ function Home() {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1">
+            <div className="grid grid-cols-2 max-[424px]:grid-cols-1 lg:grid-cols-3 gap-5">
               {[1, 2, 3].map(i => (
                 <div key={i} className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-2xl overflow-hidden animate-pulse">
                   <div className="aspect-square bg-[var(--color-border)]" />
@@ -144,7 +144,7 @@ function Home() {
               <p className="text-[var(--color-text)]">No categories available yet.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-6 max-md:grid-cols-1">
+            <div className="grid grid-cols-2 max-[424px]:grid-cols-1 lg:grid-cols-3 gap-6">
               {featuredNiches.map((n, i) => {
                 const img = nicheImage(n)
                 const nId = nicheId(n)
@@ -195,13 +195,13 @@ function Home() {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-3 gap-6 max-md:grid-cols-1">
+            <div className="grid grid-cols-2 max-[424px]:grid-cols-1 lg:grid-cols-3 gap-6">
               {[1, 2, 3].map(i => (
                 <div key={i} className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl overflow-hidden animate-pulse">
-                  <div className="h-48 bg-[var(--color-border)]" />
-                  <div className="p-6 space-y-3">
-                    <div className="h-5 w-3/4 bg-[var(--color-border)] rounded" />
-                    <div className="h-4 w-full bg-[var(--color-border)] rounded" />
+                  <div className="h-40 sm:h-48 bg-[var(--color-border)]" />
+                  <div className="p-4 sm:p-5 space-y-2.5">
+                    <div className="h-4 w-3/4 bg-[var(--color-border)] rounded" />
+                    <div className="h-3.5 w-full bg-[var(--color-border)] rounded" />
                   </div>
                 </div>
               ))}
@@ -211,7 +211,7 @@ function Home() {
               <p className="text-[var(--color-text)]">No services available yet.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-6 max-md:grid-cols-1">
+            <div className="grid grid-cols-2 max-[424px]:grid-cols-1 lg:grid-cols-3 gap-6">
               {featuredProducts.map((p, i) => {
                 const img = extractImageUrl(p)
                 const price = extractPrice(p)
@@ -224,7 +224,7 @@ function Home() {
                     style={{ animationDelay: `${i * 0.1}s` }}
                   >
                     {img ? (
-                      <div className="h-48 overflow-hidden bg-[var(--color-bg-alt)]">
+                      <div className="h-40 sm:h-48 overflow-hidden bg-[var(--color-bg-alt)]">
                         <img
                           src={img}
                           alt={safeString(p.name || p.title)}
@@ -233,21 +233,21 @@ function Home() {
                         />
                       </div>
                     ) : (
-                      <div className="h-48 bg-gradient-to-br from-[var(--color-accent)]/5 to-[var(--color-accent)]/10 flex items-center justify-center">
-                        <span className="text-5xl">{emojis[i % emojis.length]}</span>
+                      <div className="h-40 sm:h-48 bg-gradient-to-br from-[var(--color-accent)]/5 to-[var(--color-accent)]/10 flex items-center justify-center">
+                        <span className="text-4xl sm:text-5xl">{emojis[i % emojis.length]}</span>
                       </div>
                     )}
-                    <div className="p-6">
-                      <h3 className="text-[var(--color-text-h)] text-lg font-semibold mb-1 group-hover:text-[var(--color-accent)] transition-colors">
+                    <div className="p-4 sm:p-5">
+                      <h3 className="text-[var(--color-text-h)] text-[15px] sm:text-lg font-semibold mb-0.5 group-hover:text-[var(--color-accent)] transition-colors">
                         {safeString(p.name || p.title)}
                       </h3>
                       {(p.description || p.desc || p.short_description) && (
-                        <p className="text-[14px] leading-relaxed text-[var(--color-text)] m-0 line-clamp-2">
+                        <p className="text-[13px] sm:text-[14px] leading-relaxed text-[var(--color-text)] m-0 line-clamp-2">
                           {safeString(p.description || p.desc || p.short_description)}
                         </p>
                       )}
-                      <div className="mt-4">
-                        <span className="text-xl font-bold text-[var(--color-accent)]">
+                      <div className="mt-2.5 sm:mt-3">
+                        <span className="text-[15px] sm:text-lg font-bold text-[var(--color-accent)]">
                           {price ? `Rs. ${price}` : 'Contact for price'}
                         </span>
                       </div>
