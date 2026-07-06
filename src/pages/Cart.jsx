@@ -126,7 +126,7 @@ function Cart() {
               <button
                 onClick={handleCheckout}
                 disabled={checkingOut}
-                className="w-full bg-[var(--color-accent)] text-white text-base font-semibold px-7 py-4 rounded-xl border-none cursor-pointer transition-all duration-300 mt-6 shadow-[0_4px_16px_var(--color-accent-border,transparent)] hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                className="w-full bg-[var(--color-accent)] text-white text-base font-semibold px-7 py-4 rounded-full border-none cursor-pointer transition-all duration-300 mt-6 shadow-[0_4px_16px_var(--color-accent-border,transparent)] hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               >
                 {checkingOut ? 'Processing...' : 'Proceed to Checkout →'}
               </button>
