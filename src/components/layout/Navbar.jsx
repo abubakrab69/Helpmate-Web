@@ -63,7 +63,7 @@ function Navbar() {
           <div className="hidden md:flex items-center gap-1">
             <NavLink
               to="/cart"
-              className="relative w-10 h-10 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg,#fff)] cursor-pointer flex items-center justify-center transition-all duration-300 hover:border-[var(--color-accent)] hover:bg-[var(--color-accent-bg,transparent)] no-underline text-[var(--color-text)]"
+              className="relative w-10 h-10 rounded-lg cursor-pointer flex items-center justify-center transition-all duration-300 hover:border-[var(--color-accent)] hover:bg-[var(--color-accent-bg,transparent)] no-underline text-[var(--color-text)]"
               aria-label="Cart"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
