@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import ThemeToggle from '../ui/ThemeToggle'
 import { useCart } from '../../contexts/CartContext'
+import { useAuth } from '../../contexts/AuthContext'
+import { ROUTES } from '../../constants'
 
 const navItems = [
   { to: '/', label: 'Home' },
@@ -12,7 +14,10 @@ const navItems = [
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
   const { totalItems } = useCart()
+  const { isAuthenticated, user, logout } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (menuOpen) {
@@ -24,6 +29,12 @@ function Navbar() {
   }, [menuOpen])
 
   const closeMenu = () => setMenuOpen(false)
+
+  const handleLogout = async () => {
+    setDropdownOpen(false)
+    await logout()
+    navigate(ROUTES.HOME)
+  }
 
   const linkClass = ({ isActive }) =>
     `no-underline text-[var(--color-text)] text-[15px] px-5 md:px-3 lg:px-5 py-2 rounded-lg transition-all duration-300 font-medium relative
@@ -39,7 +50,6 @@ function Navbar() {
             H
           </NavLink>
 
-          {/* Desktop nav */}
           <ul className="hidden md:flex items-center gap-1 list-none m-0 p-0">
             {navItems.map(({ to, label }) => (
               <li key={to}>
@@ -49,7 +59,6 @@ function Navbar() {
               </li>
             ))}
           </ul>
-
 
           <div className="hidden md:flex items-center gap-1">
             <NavLink
@@ -68,12 +77,49 @@ function Navbar() {
               )}
             </NavLink>
             <ThemeToggle />
-            <button className="bg-[var(--color-accent)] text-white text-[15px] md:text-[14px] lg:text-[15px] font-semibold px-7 md:px-5 lg:px-7 py-2.5 rounded-full border-none cursor-pointer transition-all duration-300 shadow-[0_4px_16px_var(--color-accent-border,transparent)] hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
-              Sign Up
-            </button>
+            {isAuthenticated ? (
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen((p) => !p)}
+                  className="w-10 h-10 rounded-full bg-[var(--color-accent)] text-white text-sm font-bold border-none cursor-pointer flex items-center justify-center transition-all duration-200 hover:bg-[var(--color-accent-light)]"
+                >
+                  {(user?.name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
+                </button>
+                {dropdownOpen && (
+                  <>
+                    <div className="fixed inset-0 z-10" onClick={() => setDropdownOpen(false)} />
+                    <div className="absolute right-0 top-12 z-20 w-48 bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl shadow-lg py-2 animate-scale-in">
+                      <div className="px-4 py-2 border-b border-[var(--color-border)]">
+                        <p className="text-sm font-medium text-[var(--color-text-h)] truncate">{user?.name || 'User'}</p>
+                        <p className="text-xs text-[var(--color-text)] truncate">{user?.email}</p>
+                      </div>
+                      <NavLink
+                        to={ROUTES.DASHBOARD}
+                        onClick={() => setDropdownOpen(false)}
+                        className="block px-4 py-2 text-sm text-[var(--color-text-h)] hover:bg-[var(--color-accent-bg,transparent)] no-underline"
+                      >
+                        Dashboard
+                      </NavLink>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 bg-transparent border-none cursor-pointer"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => navigate(ROUTES.LOGIN)}
+                className="bg-[var(--color-accent)] text-white text-[15px] md:text-[14px] lg:text-[15px] font-semibold px-7 md:px-5 lg:px-7 py-2.5 rounded-full border-none cursor-pointer transition-all duration-300 shadow-[0_4px_16px_var(--color-accent-border,transparent)] hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96"
+              >
+                Sign In
+              </button>
+            )}
           </div>
 
-          {/* Hamburger */}
           <button
             onClick={() => setMenuOpen(p => !p)}
             className="md:hidden w-10 h-10 rounded-lg border border-[var(--color-border)] bg-transparent cursor-pointer flex flex-col items-center justify-center gap-1.5 transition-all duration-300 hover:border-[var(--color-accent)]"
@@ -86,7 +132,6 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* Overlay */}
       {menuOpen && (
         <div
           className="fixed inset-0 z-200 bg-black/40 backdrop-blur-sm md:hidden"
@@ -94,7 +139,6 @@ function Navbar() {
         />
       )}
 
-      {/* Mobile drawer */}
       <div
         className={`fixed top-0 right-0 h-full w-[280px] z-300 bg-[var(--color-bg)] border-l border-[var(--color-border)] flex flex-col pt-24 px-6 transition-transform duration-300 md:hidden ${menuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
@@ -116,6 +160,21 @@ function Navbar() {
               </NavLink>
             </li>
           ))}
+          {isAuthenticated && (
+            <li>
+              <NavLink
+                to={ROUTES.DASHBOARD}
+                onClick={closeMenu}
+                className={({ isActive }) =>
+                  `no-underline text-[var(--color-text)] text-[17px] px-5 py-3 rounded-xl transition-all duration-300 font-medium block
+                  hover:bg-[var(--color-accent-bg,transparent)] hover:text-[var(--color-accent)]
+                  ${isActive ? 'bg-[var(--color-accent-bg,transparent)] text-[var(--color-accent)] font-semibold' : ''}`
+                }
+              >
+                Dashboard
+              </NavLink>
+            </li>
+          )}
         </ul>
 
         <div className="flex items-center gap-3 px-5">
@@ -136,12 +195,21 @@ function Navbar() {
             )}
           </NavLink>
           <ThemeToggle />
-          <button
-            onClick={closeMenu}
-            className="flex-1 bg-[var(--color-accent)] text-white text-[15px] font-semibold px-2 py-3 rounded-full border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)]"
-          >
-            Sign Up
-          </button>
+          {isAuthenticated ? (
+            <button
+              onClick={() => { closeMenu(); handleLogout() }}
+              className="flex-1 border border-red-300 text-red-500 text-[15px] font-semibold px-2 py-3 rounded-full bg-transparent cursor-pointer transition-all duration-300 hover:bg-red-50 dark:hover:bg-red-900/20"
+            >
+              Sign Out
+            </button>
+          ) : (
+            <button
+              onClick={() => { closeMenu(); navigate(ROUTES.LOGIN) }}
+              className="flex-1 bg-[var(--color-accent)] text-white text-[15px] font-semibold px-2 py-3 rounded-full border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)]"
+            >
+              Sign In
+            </button>
+          )}
         </div>
       </div>
     </>

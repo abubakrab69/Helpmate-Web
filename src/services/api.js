@@ -1,44 +1,37 @@
+import axios from 'axios'
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
 
-async function request(endpoint, options = {}) {
-  const url = `${API_BASE_URL}${endpoint}`
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    Accept: 'application/json',
+  },
+})
+
+api.interceptors.request.use((config) => {
   const token = localStorage.getItem('helpmate-token')
-
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
-    ...options,
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
   }
+  return config
+})
 
-  try {
-    const res = await fetch(url, config)
-    const data = await res.json().catch(() => ({}))
-
-    if (!res.ok) {
-      const message = data?.message || data?.error || `Request failed: ${res.status}`
-      throw new Error(message)
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      const { status, data } = error.response
+      if (status === 401) {
+        localStorage.removeItem('helpmate-token')
+        localStorage.removeItem('helpmate-user')
+        window.location.href = '/auth/login'
+      }
+    } else if (error.request) {
+      error.message = 'Network error. Please check your connection.'
     }
-
-    return data
-  } catch (err) {
-    if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
-      throw new Error('Network error. Please check your connection.')
-    }
-    throw err
+    return Promise.reject(error)
   }
-}
-
-export const api = {
-  get: (endpoint, options) => request(endpoint, { ...options, method: 'GET' }),
-  post: (endpoint, data, options) =>
-    request(endpoint, { ...options, method: 'POST', body: JSON.stringify(data) }),
-  put: (endpoint, data, options) =>
-    request(endpoint, { ...options, method: 'PUT', body: JSON.stringify(data) }),
-  delete: (endpoint, options) => request(endpoint, { ...options, method: 'DELETE' }),
-}
+)
 
 export default api
