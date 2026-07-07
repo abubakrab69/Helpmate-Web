@@ -2,14 +2,26 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authService } from '../services/authService'
 import { useToast } from '../components/ui/Toast'
-import { Input } from '../components/ui'
+import { Input, Select } from '../components/ui'
 import { ROUTES } from '../constants'
+
+const FALLBACK_NICHES = [
+  { id: 'plumber', name: 'Plumber', icon: '🔧', description: 'Pipe repairs and installation' },
+  { id: 'electrician', name: 'Electrician', icon: '⚡', description: 'Electrical wiring and repairs' },
+  { id: 'carpenter', name: 'Carpenter', icon: '🪚', description: 'Woodwork and furniture' },
+  { id: 'painter', name: 'Painter', icon: '🎨', description: 'Interior and exterior painting' },
+  { id: 'cleaner', name: 'Cleaner', icon: '🧹', description: 'Home and office cleaning' },
+  { id: 'gardener', name: 'Gardener', icon: '🌿', description: 'Lawn and garden maintenance' },
+  { id: 'hvac', name: 'HVAC Technician', icon: '❄️', description: 'Heating and cooling systems' },
+  { id: 'mover', name: 'Mover', icon: '📦', description: 'Packing and moving services' },
+  { id: 'mechanic', name: 'Mechanic', icon: '🔧', description: 'Vehicle repair and maintenance' },
+]
 
 function VendorSelectNiche() {
   const navigate = useNavigate()
   const { addToast } = useToast()
 
-  const [niches, setNiches] = useState([])
+  const [niches, setNiches] = useState(FALLBACK_NICHES)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', nieche_id: '' })
@@ -22,10 +34,15 @@ function VendorSelectNiche() {
   const loadNiches = async () => {
     setLoading(true)
     try {
-      const data = await authService.getNiches()
-      setNiches(Array.isArray(data) ? data : data.data || data.nieches || [])
+      const res = await authService.getNiches()
+      const list = Array.isArray(res)
+        ? res
+        : res?.data
+        ? (Array.isArray(res.data) ? res.data : res.data?.nieches || res.data?.niches || res.data?.data || [])
+        : res?.nieches || res?.niches || res?.niachas || []
+      if (list.length > 0) setNiches(list)
     } catch (err) {
-      addToast(err.message || 'Failed to load niches', 'error')
+      addToast('Using default professions list', 'warning')
     } finally {
       setLoading(false)
     }
@@ -110,10 +127,24 @@ function VendorSelectNiche() {
           />
 
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="nieche_id" className="text-sm font-medium text-[var(--color-text-h)]">
+            <label className="text-sm font-medium text-[var(--color-text-h)]">
               Select Profession
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+            <Select
+              id="nieche_id"
+              name="nieche_id"
+              placeholder="-- Choose a profession --"
+              options={niches}
+              value={form.nieche_id}
+              onChange={(e) => {
+                setForm((prev) => ({ ...prev, nieche_id: e.target.value }))
+                setErrors((prev) => ({ ...prev, nieche_id: '' }))
+              }}
+              error={errors.nieche_id}
+            />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
               {niches.map((niche) => (
                 <button
                   key={niche.id || niche._id}
@@ -133,7 +164,6 @@ function VendorSelectNiche() {
                 </button>
               ))}
             </div>
-            {errors.nieche_id && <p className="text-red-500 text-xs mt-1">{errors.nieche_id}</p>}
           </div>
 
           <button
