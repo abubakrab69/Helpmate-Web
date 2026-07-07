@@ -70,7 +70,7 @@ function OtpVerify() {
   }, [identifier, mode, from, vendorData, pinLoginVerify, verifyOtp, addToast, navigate])
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 pt-24 pb-12">
+    <div className="flex items-center justify-center px-4 pt-24 pb-12 mt-12 mb-7">
       <div className="w-full max-w-md text-center">
         <div className="mb-8">
           <div className="w-16 h-16 rounded-full bg-[var(--color-accent)]/10 flex items-center justify-center mx-auto mb-4">

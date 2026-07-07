@@ -30,7 +30,7 @@ function Login() {
   }
 
   return (
-    <div className="flex items-center justify-center px-4 pt-12 pb-12 mt-7">
+    <div className="flex items-center justify-center px-4 pt-12 pb-12 mt-10 mb-7">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-[var(--color-text-h)]">Welcome Back</h1>
@@ -48,6 +48,12 @@ function Login() {
             error={error}
             autoComplete="username"
           />
+          <p className="text-sm text-[var(--color-text)]">
+            Don&apos;t have an account?{' '}
+            <Link to={ROUTES.REGISTER} className="text-[var(--color-accent)] font-medium hover:underline">
+              Create one
+            </Link>
+          </p>
 
           <button
             type="submit"
@@ -60,12 +66,7 @@ function Login() {
         </form>
 
         <div className="mt-6 text-center space-y-2">
-          <p className="text-sm text-[var(--color-text)]">
-            Don&apos;t have an account?{' '}
-            <Link to={ROUTES.REGISTER} className="text-[var(--color-accent)] font-medium hover:underline">
-              Create one
-            </Link>
-          </p>
+
           <p className="text-sm text-[var(--color-text)]">
             Want to offer services?{' '}
             <Link to={ROUTES.VENDOR_SELECT_NICHE} className="text-[var(--color-accent)] font-medium hover:underline">
