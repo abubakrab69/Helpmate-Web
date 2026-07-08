@@ -10,24 +10,42 @@ function Register() {
   const { register } = useAuth()
   const { addToast } = useToast()
 
-  const [form, setForm] = useState({ name: '', email: '', phone_number: '', password: '', password_confirmation: '' })
+  const [form, setForm] = useState({ name: '', identifier: '' })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
+  const [inputType, setInputType] = useState('')
 
-  const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-    setErrors((prev) => ({ ...prev, [e.target.name]: '' }))
+  const detectType = (val) => {
+    if (!val.trim()) return ''
+    if (val.includes('@')) return 'email'
+    const digits = val.replace(/\D/g, '')
+    if (digits.length >= 4) return 'phone'
+    return ''
+  }
+
+  const handleNameChange = (e) => {
+    setForm((prev) => ({ ...prev, name: e.target.value }))
+    setErrors((prev) => ({ ...prev, name: '' }))
+  }
+
+  const handleIdentifierChange = (e) => {
+    const val = e.target.value
+    setForm((prev) => ({ ...prev, identifier: val }))
+    setInputType(detectType(val))
+    setErrors((prev) => ({ ...prev, identifier: '' }))
   }
 
   const validate = () => {
     const errs = {}
-    if (!form.name.trim()) errs.name = 'Name is required'
-    if (!form.email.trim()) errs.email = 'Email is required'
-    else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Invalid email address'
-    if (!form.phone_number.trim()) errs.phone_number = 'Phone number is required'
-    if (!form.password) errs.password = 'Password is required'
-    else if (form.password.length < 6) errs.password = 'Password must be at least 6 characters'
-    if (form.password !== form.password_confirmation) errs.password_confirmation = 'Passwords do not match'
+    if (!form.name.trim()) errs.name = 'Full name is required'
+    const id = form.identifier.trim()
+    if (!id) {
+      errs.identifier = 'Email or phone number is required'
+    } else if (inputType === 'email' && !/\S+@\S+\.\S+/.test(id)) {
+      errs.identifier = 'Please enter a valid email'
+    } else if (inputType === 'phone' && id.replace(/\D/g, '').length < 10) {
+      errs.identifier = 'Please enter a valid phone number'
+    }
     setErrors(errs)
     return Object.keys(errs).length === 0
   }
@@ -38,15 +56,28 @@ function Register() {
 
     setLoading(true)
     try {
-      await register({
+      const tempPass = Math.random().toString(36).slice(2, 10) + 'Aa1!'
+      const payload = {
         name: form.name.trim(),
-        email: form.email.trim(),
-        phone_number: form.phone_number.trim(),
-        password: form.password,
-        password_confirmation: form.password_confirmation,
-      })
+        password: tempPass,
+        password_confirmation: tempPass,
+      }
+
+      if (inputType === 'email') {
+        payload.email = form.identifier.trim()
+      } else {
+        payload.phone_number = form.identifier.trim()
+      }
+
+      await register(payload)
+
       navigate(ROUTES.OTP_VERIFY, {
-        state: { identifier: { email: form.email.trim() }, mode: 'register' },
+        state: {
+          identifier: inputType === 'email'
+            ? { email: form.identifier.trim() }
+            : { phone_number: form.identifier.trim() },
+          mode: 'register',
+        },
       })
     } catch (err) {
       addToast(err.message || 'Registration failed', 'error')
@@ -54,6 +85,9 @@ function Register() {
       setLoading(false)
     }
   }
+
+  const showFlag = inputType === 'phone'
+  const showEmailIcon = inputType === 'email'
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 pt-24 pb-12">
@@ -70,58 +104,43 @@ function Register() {
             label="Full Name"
             placeholder="John Doe"
             value={form.name}
-            onChange={handleChange}
+            onChange={handleNameChange}
             error={errors.name}
             autoComplete="name"
           />
 
-          <Input
-            id="email"
-            name="email"
-            label="Email"
-            type="email"
-            placeholder="john@example.com"
-            value={form.email}
-            onChange={handleChange}
-            error={errors.email}
-            autoComplete="email"
-          />
-
-          <Input
-            id="phone_number"
-            name="phone_number"
-            label="Phone Number"
-            type="tel"
-            placeholder="+1234567890"
-            value={form.phone_number}
-            onChange={handleChange}
-            error={errors.phone_number}
-            autoComplete="tel"
-          />
-
-          <Input
-            id="password"
-            name="password"
-            label="Password"
-            type="password"
-            placeholder="At least 6 characters"
-            value={form.password}
-            onChange={handleChange}
-            error={errors.password}
-            autoComplete="new-password"
-          />
-
-          <Input
-            id="password_confirmation"
-            name="password_confirmation"
-            label="Confirm Password"
-            type="password"
-            placeholder="Repeat your password"
-            value={form.password_confirmation}
-            onChange={handleChange}
-            error={errors.password_confirmation}
-            autoComplete="new-password"
-          />
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="identifier" className="text-sm font-medium text-[var(--color-text-h)]">
+              Email or Phone Number
+            </label>
+            <div className="relative">
+              <input
+                id="identifier"
+                name="identifier"
+                type={showEmailIcon ? 'email' : 'text'}
+                inputMode={showFlag ? 'tel' : showEmailIcon ? 'email' : 'text'}
+                placeholder="Enter your email or phone number"
+                value={form.identifier}
+                onChange={handleIdentifierChange}
+                autoComplete="username"
+                className={`w-full px-4 py-3 rounded-xl border bg-[var(--color-bg)] text-[var(--color-text-h)] text-sm outline-none transition-all duration-200 placeholder:text-[var(--color-text)]/50 focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/20 pr-12 ${
+                  errors.identifier ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-[var(--color-border)]'
+                }`}
+              />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none text-sm">
+                {showFlag && (
+                  <span className="flex items-center gap-1 text-sm font-medium text-[var(--color-text)] select-none">
+                    <span className="text-base leading-none">🇵🇰</span>
+                    <span className="hidden sm:inline text-[13px]">+92</span>
+                  </span>
+                )}
+                {showEmailIcon && (
+                  <span className="text-base leading-none opacity-50 select-none">📧</span>
+                )}
+              </div>
+            </div>
+            {errors.identifier && <p className="text-red-500 text-xs mt-0.5">{errors.identifier}</p>}
+          </div>
 
           <button
             type="submit"
