@@ -76,7 +76,7 @@ function Register() {
   const showEmailIcon = inputType === 'email'
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 pt-24 pb-12">
+    <div className="flex items-center justify-center px-4 pt-24 pb-12 mb-7">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-[var(--color-text-h)]">Create Account</h1>
@@ -109,9 +109,8 @@ function Register() {
                 value={form.identifier}
                 onChange={handleIdentifierChange}
                 autoComplete="username"
-                className={`w-full px-4 py-3 rounded-xl border bg-[var(--color-bg)] text-[var(--color-text-h)] text-sm outline-none transition-all duration-200 placeholder:text-[var(--color-text)]/50 focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/20 pr-12 ${
-                  errors.identifier ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-[var(--color-border)]'
-                }`}
+                className={`w-full px-4 py-3 rounded-xl border bg-[var(--color-bg)] text-[var(--color-text-h)] text-sm outline-none transition-all duration-200 placeholder:text-[var(--color-text)]/50 focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/20 pr-12 ${errors.identifier ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-[var(--color-border)]'
+                  }`}
               />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none text-sm">
                 {showFlag && (
