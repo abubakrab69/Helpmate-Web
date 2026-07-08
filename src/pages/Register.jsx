@@ -7,7 +7,7 @@ import { ROUTES } from '../constants'
 
 function Register() {
   const navigate = useNavigate()
-  const { register } = useAuth()
+  const { sendOtp } = useAuth()
   const { addToast } = useToast()
 
   const [form, setForm] = useState({ name: '', identifier: '' })
@@ -56,28 +56,14 @@ function Register() {
 
     setLoading(true)
     try {
-      const tempPass = Math.random().toString(36).slice(2, 10) + 'Aa1!'
-      const payload = {
-        name: form.name.trim(),
-        password: tempPass,
-        password_confirmation: tempPass,
-      }
+      const identifier = inputType === 'email'
+        ? { email: form.identifier.trim() }
+        : { phone_number: form.identifier.trim() }
 
-      if (inputType === 'email') {
-        payload.email = form.identifier.trim()
-      } else {
-        payload.phone_number = form.identifier.trim()
-      }
-
-      await register(payload)
+      await sendOtp({ ...identifier, name: form.name.trim() })
 
       navigate(ROUTES.OTP_VERIFY, {
-        state: {
-          identifier: inputType === 'email'
-            ? { email: form.identifier.trim() }
-            : { phone_number: form.identifier.trim() },
-          mode: 'register',
-        },
+        state: { identifier, mode: 'register' },
       })
     } catch (err) {
       addToast(err.message || 'Registration failed', 'error')
