@@ -143,7 +143,7 @@ function Home() {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-2 max-[424px]:grid-cols-1 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
               {[1, 2, 3].map(i => (
                 <div key={i} className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-2xl overflow-hidden animate-pulse">
                   <div className="aspect-square bg-[var(--color-border)]" />
@@ -158,7 +158,7 @@ function Home() {
               <p className="text-[var(--color-text)]">No categories available yet.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 max-[424px]:grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredNiches.map((n, i) => {
                 const img = nicheImage(n)
                 const nId = nicheId(n)
@@ -209,7 +209,7 @@ function Home() {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-2 max-[424px]:grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3].map(i => (
                 <div key={i} className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl overflow-hidden animate-pulse">
                   <div className="h-40 sm:h-48 bg-[var(--color-border)]" />
@@ -225,7 +225,7 @@ function Home() {
               <p className="text-[var(--color-text)]">No services available yet.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 max-[424px]:grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
               {featuredProducts.map((p, i) => {
                 const img = extractImageUrl(p)
                 const price = extractPrice(p)
