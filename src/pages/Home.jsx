@@ -18,9 +18,17 @@ function Home() {
           productService.getAll(),
         ])
         if (cancelled) return
-        const nicheList = nichesRes?.data?.data || nichesRes?.data || nichesRes?.niches || nichesRes?.nieches || nichesRes?.products_nieches || []
+        const nicheBody = nichesRes?.data
+        const nicheList =
+          nicheBody?.data ||
+          nicheBody?.products_nieches ||
+          nicheBody?.nieches ||
+          nicheBody?.niches ||
+          nicheBody?.categories ||
+          (Array.isArray(nicheBody) ? nicheBody : null)
         setNiches(Array.isArray(nicheList) ? nicheList : [])
-        const prodList = productsRes?.data?.data || productsRes?.data || productsRes?.products || []
+        const prodBody = productsRes?.data
+        const prodList = prodBody?.data || prodBody?.products || (Array.isArray(prodBody) ? prodBody : [])
         setProducts(Array.isArray(prodList) ? prodList : [])
       } catch {
         // silent
@@ -36,7 +44,13 @@ function Home() {
   const featuredProducts = products.slice(0, 3)
 
   const nicheName = (n) => safeString(n?.name || n?.title || n?.niche_name || 'Category')
-  const nicheImage = (n) => extractImageUrl(n) || n?.image_icon || null
+  const nicheImage = (n) => {
+    const iconPath = n?.iconPath || n?.icon_path || n?.image || n?.image_icon
+    if (iconPath && !iconPath.startsWith('http')) {
+      return `https://helpmate.apexvim.com/storage/${iconPath.replace(/^\//, '')}`
+    }
+    return extractImageUrl(n) || iconPath || null
+  }
   const nicheId = (n) => n?.id || n?.niche_id || n?._id
 
   return (
