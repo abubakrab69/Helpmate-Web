@@ -2,9 +2,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-accent: #FF6B00;
-  --color-accent-light: #ff8533;
-  --color-accent-lighter: #ffa366;
+  --color-accent: #D84315;
+  --color-accent-light: #E64A19;
+  --color-accent-lighter: #EF6C00;
   --color-bg: #ffffff;
   --color-bg-alt: #fdf8f5;
   --color-card: #ffffff;
@@ -16,9 +16,9 @@
 }
 
 [data-theme="dark"] {
-  --color-accent: #ff8533;
-  --color-accent-light: #ffa166;
-  --color-accent-lighter: #ffb888;
+  --color-accent: #E64A19;
+  --color-accent-light: #EF6C00;
+  --color-accent-lighter: #F57C00;
   --color-bg: #0f0b09;
   --color-bg-alt: #1a1512;
   --color-card: #1a1512;
@@ -31,7 +31,7 @@
 [data-theme="dark"] .navbar { background: rgba(15, 11, 9, 0.92); }
 .footer { background: var(--color-bg-alt); }
 [data-theme="dark"] .footer { background: #080605; }
-[data-theme="dark"] .hero-wrap { background: #e06000; }
+[data-theme="dark"] .hero-wrap { background: #BF360C; }
 
 body {
   margin: 0;

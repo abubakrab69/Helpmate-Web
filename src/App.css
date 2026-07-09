@@ -5,13 +5,13 @@
 
 /* ===== Home Hero ===== */
 .hero-section__wrap {
-  background: #FF6B00;
+  background: #D84315;
   padding: 60px 48px;
   position: relative;
 }
 
 [data-theme="dark"] .hero-section__wrap {
-  background: #e06000;
+  background: #BF360C;
 }
 
 .hero-section {
@@ -91,7 +91,7 @@
 
 .hero-section__actions .btn--primary {
   background: #fff;
-  color: #FF6B00;
+  color: #D84315;
   box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   gap: 10px;
 }
