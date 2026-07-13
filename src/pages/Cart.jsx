@@ -47,7 +47,7 @@ function Cart() {
               <>
                 <span className="text-[72px] block mb-6">🛒</span>
                 <h2 className="text-[var(--color-text-h)] text-3xl font-bold mb-3">Your cart is empty</h2>
-                <p className="text-[var(--color-text)] text-base mb-8">Looks like you haven't added any services yet.</p>
+                <p className="text-[var(--color-text)] text-base mb-8">Looks like you haven't added any services yet. </p>
               </>
             )}
             <Link to="/" className="inline-flex items-center gap-2 bg-[var(--color-accent)] text-white text-base font-semibold px-9 py-4 rounded-full shadow-[0_4px_16px_var(--color-accent-border,transparent)] transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_var(--color-accent-border,transparent)] hover:-translate-y-0.5 active:scale-96">
