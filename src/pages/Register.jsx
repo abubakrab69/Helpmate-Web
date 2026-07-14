@@ -63,7 +63,7 @@ function Register() {
       await sendOtp({ ...identifier, name: form.name.trim() })
 
       navigate(ROUTES.OTP_VERIFY, {
-        state: { identifier, mode: 'register' },
+        state: { identifier, mode: 'register', name: form.name.trim() },
       })
     } catch (err) {
       addToast(err.message || 'Registration failed', 'error')

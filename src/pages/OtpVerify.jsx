@@ -11,7 +11,7 @@ function OtpVerify() {
   const { sendOtp, verifyOtp, pinLoginVerify } = useAuth()
   const { addToast } = useToast()
 
-  const { identifier, mode, from, vendorData } = location.state || {}
+  const { identifier, mode, from, vendorData, name } = location.state || {}
   const [loading, setLoading] = useState(false)
   const [countdown, setCountdown] = useState(0)
 
@@ -58,7 +58,7 @@ function OtpVerify() {
           replace: true,
         })
       } else {
-        const data = await verifyOtp(payload)
+        const data = await verifyOtp(name ? { ...payload, name } : payload)
         addToast('Account verified! Welcome!', 'success')
         navigate(ROUTES.DASHBOARD, { replace: true })
       }
@@ -67,7 +67,7 @@ function OtpVerify() {
     } finally {
       setLoading(false)
     }
-  }, [identifier, mode, from, vendorData, pinLoginVerify, verifyOtp, addToast, navigate])
+  }, [identifier, mode, from, vendorData, name, pinLoginVerify, verifyOtp, addToast, navigate])
 
   return (
     <div className="flex items-center justify-center px-4 pt-24 pb-12 mt-12 mb-7">
