@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { supportService } from '../services/supportService'
+import { useToast } from '../components/ui/Toast'
 
 const contactInfo = [
   { icon: '📧', label: 'Email', value: 'hello@helpmate.com', href: 'mailto:hello@helpmate.com' },
@@ -10,14 +12,25 @@ const contactInfo = [
 function Contact() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const { addToast } = useToast()
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
+    setLoading(true)
+    try {
+      await supportService.submit(form)
+      setSubmitted(true)
+      addToast('Message sent successfully!', 'success')
+    } catch (err) {
+      addToast(err.response?.data?.message || err.message || 'Failed to send message', 'error')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -123,9 +136,10 @@ function Contact() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-[var(--color-accent)] text-white text-base font-semibold px-8 py-3.5 rounded-full border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:-translate-y-0.5 active:scale-96"
+                    disabled={loading}
+                    className="w-full bg-[var(--color-accent)] text-white text-base font-semibold px-8 py-3.5 rounded-full border-none cursor-pointer transition-all duration-300 hover:bg-[var(--color-accent-light)] hover:-translate-y-0.5 active:scale-96 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   >
-                    Send Message →
+                    {loading ? 'Sending...' : 'Send Message →'}
                   </button>
                 </form>
               </>
