@@ -64,11 +64,17 @@ export function AuthProvider({ children }) {
     setLoading(true)
     try {
       const data = await authService.register(userData)
+      const { token: newToken, user: newUser, ...rest } = data
+      if (newToken || data.access_token) {
+        saveAuth(newToken || data.access_token, newUser || data.user || rest)
+      }
       return data
+    } catch (err) {
+      throw err
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [saveAuth])
 
   const sendOtp = useCallback(async (payload) => {
     setLoading(true)
