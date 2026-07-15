@@ -108,6 +108,7 @@ function Contact() {
                       />
                     </div>
                   </div>
+
                   <div>
                     <label htmlFor="subject" className="block text-[14px] font-medium text-[var(--color-text)] mb-1.5">Subject</label>
                     <input
@@ -121,6 +122,7 @@ function Contact() {
                       placeholder="How can we help?"
                     />
                   </div>
+
                   <div>
                     <label htmlFor="message" className="block text-[14px] font-medium text-[var(--color-text)] mb-1.5">Message</label>
                     <textarea
@@ -134,6 +136,7 @@ function Contact() {
                       placeholder="Tell us more about your inquiry..."
                     />
                   </div>
+
                   <button
                     type="submit"
                     disabled={loading}
