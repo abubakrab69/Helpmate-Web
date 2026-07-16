@@ -57,8 +57,18 @@ function Register() {
     setLoading(true)
     try {
       const payload = inputType === 'email'
-        ? { name: form.name.trim(), email: form.identifier.trim() }
-        : { name: form.name.trim(), phone_number: form.identifier.trim() }
+        ? { 
+            name: form.name.trim(), 
+            email: form.identifier.trim(),
+            password: 'password123',
+            password_confirmation: 'password123'
+          }
+        : { 
+            name: form.name.trim(), 
+            phone_number: form.identifier.trim(),
+            password: 'password123',
+            password_confirmation: 'password123'
+          }
 
       await register(payload)
       addToast('Account created successfully!', 'success')
