@@ -35,7 +35,7 @@ function Footer() {
             </p>
             <div className="flex gap-2.5">
               {socials.map(s => (
-                <a key={s.label} href={s.href} className="w-10 h-10 rounded-lg bg-border flex items-center justify-center text-text text-base no-underline transition-all duration-300 hover:bg-accent hover:text-white hover:-translate-y-1" aria-label={s.label}>
+                <a key={s.label} href={s.href} className="w-10 h-10 rounded-lg bg-border flex items-center justify-center text-text text-base no-underline transition-all duration-300 hover:bg-accent hover:text-white" aria-label={s.label}>
                   {s.icon}
                 </a>
               ))}
