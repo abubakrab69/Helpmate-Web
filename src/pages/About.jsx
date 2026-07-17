@@ -28,6 +28,7 @@ function About() {
         </div>
 
         {/* Story */}
+
         <div className="grid grid-cols-2 gap-12 mb-20 items-center max-md:grid-cols-1">
           <div className="animate-fade-up">
             <h2 className="text-[var(--color-text-h)] text-2xl font-bold mb-4">Our Story</h2>
