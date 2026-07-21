@@ -97,6 +97,7 @@ function About() {
           </div>
         </div>
 
+
         {/* CTA */}
         <div className="text-center bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-2xl p-12 animate-fade-up">
           <h2 className="text-[var(--color-text-h)] text-2xl font-bold mb-3">Want to be part of our story?</h2>
