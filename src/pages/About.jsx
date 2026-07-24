@@ -14,6 +14,7 @@ const values = [
   { icon: '🌱', title: 'Growth', desc: 'We help local professionals grow their businesses.' },
 ]
 
+
 function About() {
   return (
     <div className="px-6 md:px-12 py-10 md:py-16">
@@ -96,7 +97,6 @@ function About() {
             ))}
           </div>
         </div>
-
 
         {/* CTA */}
         <div className="text-center bg-[var(--color-bg-alt)] border border-[var(--color-border)] rounded-2xl p-12 animate-fade-up">
