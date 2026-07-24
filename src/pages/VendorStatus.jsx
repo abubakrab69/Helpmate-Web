@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { authService } from '../services/authService'
 import { ROUTES } from '../constants'
 
+
 function VendorStatus() {
   const navigate = useNavigate()
   const [status, setStatus] = useState(null)
@@ -34,6 +35,7 @@ function VendorStatus() {
       </div>
     )
   }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 pt-24 pb-12">
